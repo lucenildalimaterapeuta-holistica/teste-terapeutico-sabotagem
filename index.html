@@ -15,7 +15,7 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #f5e6e0 0%, #ede4df 100%);
+            background: linear-gradient(135deg, #f5e6d3 0%, #e8d4c4 100%);
             min-height: 100vh;
             padding: 20px;
         }
@@ -30,26 +30,26 @@
         }
 
         .header {
-            background: linear-gradient(135deg, #d4a5a0 0%, #c89080 100%);
+            background: linear-gradient(135deg, #d4a5a0 0%, #c9948f 100%);
             padding: 40px 20px;
             text-align: center;
             color: white;
         }
 
         .foto-perfil {
-            width: 200px;
-            height: 200px;
+            width: 150px;
+            height: 150px;
             border-radius: 50%;
             margin: 0 auto 20px;
             border: 5px solid white;
             object-fit: cover;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            display: block;
         }
 
         .header h1 {
             font-size: 28px;
             margin-bottom: 10px;
-            font-weight: 700;
+            font-weight: 600;
         }
 
         .header p {
@@ -59,14 +59,14 @@
         }
 
         .content {
-            padding: 40px 30px;
+            padding: 40px;
         }
 
-        .tela {
+        .screen {
             display: none;
         }
 
-        .tela.ativa {
+        .screen.active {
             display: block;
             animation: fadeIn 0.5s ease-in;
         }
@@ -86,243 +86,561 @@
             margin-bottom: 30px;
         }
 
-        .pergunta h3 {
-            color: #a67c6d;
-            font-size: 18px;
-            margin-bottom: 15px;
+        .pergunta-numero {
+            font-size: 14px;
+            color: #d4a5a0;
             font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .pergunta-texto {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 15px;
+            font-weight: 500;
         }
 
         .opcoes {
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 12px;
         }
 
         .opcao {
-            display: flex;
-            align-items: center;
             padding: 15px;
-            border: 2px solid #e8d4cf;
+            border: 2px solid #e8d4c4;
             border-radius: 10px;
             cursor: pointer;
             transition: all 0.3s ease;
-            background: #faf8f6;
+            background: #fafafa;
+            font-size: 16px;
+            color: #333;
         }
 
         .opcao:hover {
-            background: #f5e6e0;
-            border-color: #c89080;
+            border-color: #d4a5a0;
+            background: #f5e6d3;
+            transform: translateX(5px);
         }
 
         .opcao input[type="radio"] {
-            margin-right: 15px;
-            width: 20px;
-            height: 20px;
+            margin-right: 12px;
             cursor: pointer;
-            accent-color: #c89080;
+            accent-color: #d4a5a0;
         }
 
         .opcao label {
             cursor: pointer;
-            flex: 1;
-            color: #333;
+            display: flex;
+            align-items: center;
         }
 
-        .formulario {
-            background: #faf8f6;
-            padding: 25px;
-            border-radius: 15px;
-            margin: 30px 0;
-        }
-
-        .formulario h3 {
-            color: #a67c6d;
-            margin-bottom: 20px;
-            font-size: 20px;
-        }
-
-        .campo {
+        .form-group {
             margin-bottom: 20px;
         }
 
-        .campo label {
+        .form-group label {
             display: block;
-            color: #a67c6d;
-            font-weight: 600;
             margin-bottom: 8px;
-            font-size: 14px;
+            color: #333;
+            font-weight: 500;
+            font-size: 16px;
         }
 
-        .campo input {
+        .form-group input {
             width: 100%;
             padding: 12px;
-            border: 2px solid #e8d4cf;
-            border-radius: 8px;
+            border: 2px solid #e8d4c4;
+            border-radius: 10px;
             font-size: 16px;
             transition: border-color 0.3s ease;
-            font-family: inherit;
         }
 
-        .campo input:focus {
+        .form-group input:focus {
             outline: none;
-            border-color: #c89080;
-            background: #fff9f7;
+            border-color: #d4a5a0;
+            background: #f5e6d3;
         }
 
         .erro {
-            color: #d9534f;
-            font-size: 13px;
+            color: #c9594a;
+            font-size: 14px;
             margin-top: 5px;
             display: none;
         }
 
-        .erro.mostrar {
+        .erro.show {
             display: block;
-        }
-
-        .resultado {
-            background: linear-gradient(135deg, #f5e6e0 0%, #ede4df 100%);
-            padding: 30px;
-            border-radius: 15px;
-            margin: 20px 0;
-        }
-
-        .resultado h2 {
-            color: #a67c6d;
-            font-size: 24px;
-            margin-bottom: 15px;
-        }
-
-        .perfil-nome {
-            color: #c89080;
-            font-size: 22px;
-            font-weight: 700;
-            margin-bottom: 10px;
-        }
-
-        .score {
-            background: white;
-            padding: 15px;
-            border-radius: 10px;
-            margin: 15px 0;
-            text-align: center;
-            border-left: 5px solid #c89080;
-        }
-
-        .score-numero {
-            font-size: 28px;
-            color: #c89080;
-            font-weight: 700;
-        }
-
-        .score-texto {
-            color: #666;
-            font-size: 14px;
-        }
-
-        .descricao {
-            color: #333;
-            line-height: 1.8;
-            margin: 15px 0;
-            font-size: 15px;
-        }
-
-        .orientacoes {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            margin: 20px 0;
-        }
-
-        .orientacoes h3 {
-            color: #a67c6d;
-            margin-bottom: 15px;
-            font-size: 18px;
-        }
-
-        .orientacao-item {
-            margin-bottom: 15px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid #e8d4cf;
-        }
-
-        .orientacao-item:last-child {
-            border-bottom: none;
-            margin-bottom: 0;
-            padding-bottom: 0;
-        }
-
-        .orientacao-item strong {
-            color: #c89080;
-            display: block;
-            margin-bottom: 5px;
-        }
-
-        .orientacao-item p {
-            color: #555;
-            font-size: 14px;
-            line-height: 1.6;
         }
 
         .botoes {
             display: flex;
             gap: 15px;
             margin-top: 30px;
-            flex-wrap: wrap;
+            justify-content: center;
         }
 
-        .btn {
-            flex: 1;
-            min-width: 150px;
-            padding: 15px 30px;
+        button {
+            padding: 14px 30px;
             border: none;
             border-radius: 10px;
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
         }
 
-        .btn-primario {
-            background: linear-gradient(135deg, #c89080 0%, #a67c6d 100%);
+        .btn-proximo {
+            background: linear-gradient(135deg, #d4a5a0 0%, #c9948f 100%);
             color: white;
+            flex: 1;
         }
 
-        .btn-primario:hover {
+        .btn-proximo:hover {
             transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(200, 144, 128, 0.4);
+            box-shadow: 0 5px 20px rgba(212, 165, 160, 0.4);
         }
 
-        .btn-secundario {
-            background: white;
-            color: #c89080;
-            border: 2px solid #c89080;
+        .btn-voltar {
+            background: #e8d4c4;
+            color: #333;
+            flex: 1;
         }
 
-        .btn-secundario:hover {
-            background: #f5e6e0;
+        .btn-voltar:hover {
+            background: #d9c4b0;
         }
 
-        .btn-kiwify {
-            background: linear-gradient(135deg, #c89080 0%, #a67c6d 100%);
+        .resultado-container {
+            text-align: center;
+        }
+
+        .perfil-nome {
+            font-size: 32px;
+            color: #d4a5a0;
+            margin: 20px 0;
+            font-weight: 600;
+        }
+
+        .score {
+            font-size: 18px;
+            color: #666;
+            margin: 15px 0;
+        }
+
+        .descricao-perfil {
+            background: #f5e6d3;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            line-height: 1.8;
+            color: #333;
+            font-size: 16px;
+        }
+
+        .orientacoes {
+            margin-top: 30px;
+            text-align: left;
+        }
+
+        .orientacoes h3 {
+            color: #d4a5a0;
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+
+        .orientacao-item {
+            background: #fafafa;
+            padding: 15px;
+            margin-bottom: 12px;
+            border-left: 4px solid #d4a5a0;
+            border-radius: 5px;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .orientacao-item strong {
+            color: #d4a5a0;
+        }
+
+        .btn-pdf {
+            background: linear-gradient(135deg, #d4a5a0 0%, #c9948f 100%);
             color: white;
-            text-decoration: none;
+            margin-top: 20px;
+            width: 100%;
         }
 
-        .btn-kiwify:hover {
+        .btn-pdf:hover {
             transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(200, 144, 128, 0.4);
+            box-shadow: 0 5px 20px rgba(212, 165, 160, 0.4);
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, #d4a5a0 0%, #c9948f 100%);
+            color: white;
+            padding: 16px 40px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 20px;
+            width: 100%;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(212, 165, 160, 0.4);
         }
 
         .progresso {
-            background: #e8d4cf;
+            background: #e8d4c4;
             height: 6px;
+            margin-bottom: 30px;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progresso-bar {
+            background: linear-gradient(90deg, #d4a5a0 0%, #c9948f 100%);
+            height: 100%;
+            transition: width 0.3s ease;
+        }
+
+        .footer {
+            background: #f5e6d3;
+            padding: 20px;
+            text-align: center;
+            color: #666;
+            font-size: 14px;
+            border-top: 1px solid #e8d4c4;
+        }
+
+        .sucesso-msg {
+            background: #d4f4dd;
+            border: 2px solid #52b788;
+            color: #1b5e20;
+            padding: 15px;
             border-radius: 10px;
-            margin
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .sucesso-msg.show {
+            display: block;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .loading.show {
+            display: block;
+        }
+
+        .spinner {
+            border: 4px solid #e8d4c4;
+            border-top: 4px solid #d4a5a0;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .instagram-link {
+            color: #d4a5a0;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .instagram-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&h=150&fit=crop" alt="Lucenilda Lima" class="foto-perfil">
+            <h1>Rastreio de Sabotagem Profissional</h1>
+            <p>Descubra seu padrão de sabotagem e liberte seu potencial</p>
+        </div>
+
+        <div class="content">
+            <!-- TELA 1: ABERTURA -->
+            <div class="screen active" id="tela-abertura">
+                <h2 style="color: #d4a5a0; margin-bottom: 20px; font-size: 24px;">Bem-vinda!</h2>
+                <p style="font-size: 16px; line-height: 1.8; color: #333; margin-bottom: 20px;">
+                    Você já percebeu que algo dentro de você sabota suas conquistas profissionais? Que justo quando está perto do sucesso, algo a puxa para trás?
+                </p>
+                <p style="font-size: 16px; line-height: 1.8; color: #333; margin-bottom: 20px;">
+                    A sabotagem profissional é um ciclo emocional que nos mantém presas em padrões repetitivos de autossabotagem, bloqueios e limitações. Ela vem de crenças profundas sobre merecimento, capacidade e segurança.
+                </p>
+                <p style="font-size: 16px; line-height: 1.8; color: #333; margin-bottom: 20px;">
+                    Este rastreio foi desenvolvido para ajudá-la a identificar <strong>qual é seu padrão específico de sabotagem</strong> e, a partir disso, encontrar o caminho para a liberdade profissional que você merece.
+                </p>
+                <p style="font-size: 16px; line-height: 1.8; color: #333; margin-bottom: 30px;">
+                    Responda com honestidade. Não há respostas certas ou erradas—apenas a verdade do seu coração.
+                </p>
+                <button class="btn-proximo" onclick="proximaTela('tela-perguntas')">Começar o Rastreio</button>
+            </div>
+
+            <!-- TELA 2: PERGUNTAS -->
+            <div class="screen" id="tela-perguntas">
+                <div class="progresso">
+                    <div class="progresso-bar" id="progresso-bar"></div>
+                </div>
+
+                <div id="perguntas-container"></div>
+
+                <div class="botoes">
+                    <button class="btn-voltar" onclick="voltarTela()">Voltar</button>
+                    <button class="btn-proximo" onclick="validarPerguntas()">Próximo</button>
+                </div>
+            </div>
+
+            <!-- TELA 3: FORMULÁRIO -->
+            <div class="screen" id="tela-formulario">
+                <h2 style="color: #d4a5a0; margin-bottom: 20px; font-size: 24px;">Seus Dados</h2>
+                <p style="color: #666; margin-bottom: 25px;">Para personalizar seu resultado, precisamos de algumas informações:</p>
+
+                <div class="form-group">
+                    <label for="nome">Nome Completo *</label>
+                    <input type="text" id="nome" placeholder="Digite seu nome completo">
+                    <div class="erro" id="erro-nome">Nome deve ter no mínimo 5 caracteres</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email *</label>
+                    <input type="email" id="email" placeholder="seu@email.com">
+                    <div class="erro" id="erro-email">Email inválido</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="whatsapp">WhatsApp *</label>
+                    <input type="tel" id="whatsapp" placeholder="11999999999">
+                    <div class="erro" id="erro-whatsapp">WhatsApp inválido (use formato: 11999999999)</div>
+                </div>
+
+                <div class="botoes">
+                    <button class="btn-voltar" onclick="voltarTela()">Voltar</button>
+                    <button class="btn-proximo" onclick="enviarDados()">Ver Resultado</button>
+                </div>
+            </div>
+
+            <!-- TELA 4: RESULTADO -->
+            <div class="screen" id="tela-resultado">
+                <div class="loading" id="loading">
+                    <div class="spinner"></div>
+                    <p style="margin-top: 15px; color: #666;">Processando seu resultado...</p>
+                </div>
+
+                <div class="sucesso-msg" id="sucesso-msg">
+                    ✓ Dados enviados com sucesso!
+                </div>
+
+                <div class="resultado-container" id="resultado-conteudo" style="display: none;">
+                    <h2 style="color: #d4a5a0; margin-bottom: 20px; font-size: 28px;">Seu Perfil</h2>
+                    <div class="perfil-nome" id="perfil-nome"></div>
+                    <div class="score" id="score"></div>
+                    <div class="descricao-perfil" id="descricao-perfil"></div>
+
+                    <div class="orientacoes">
+                        <h3>Seu Caminho de Transformação</h3>
+                        <div id="orientacoes-lista"></div>
+                    </div>
+
+                    <button class="btn-pdf" onclick="gerarPDF()">📥 Baixar PDF Completo</button>
+                    <a href="https://pay.kiwify.com.br/sjoETu2" class="cta-button">Clique e dê seu próximo passo</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>Lucenilda Lima | Terapeuta Facilitadora Sistêmica</p>
+            <p style="margin-top: 10px;">Instagram: <a href="https://instagram.com/lucenildalimaterapeuta" class="instagram-link">@lucenildalimaterapeuta</a></p>
+        </div>
+    </div>
+
+    <script>
+        // DADOS DO RASTREIO
+        const perguntas = [
+            {
+                numero: 1,
+                texto: "Quando você está próxima de uma promoção ou reconhecimento importante, o que geralmente acontece?",
+                opcoes: [
+                    { texto: "Você encontra razões para desistir ou recusa a oportunidade", valor: "A" },
+                    { texto: "Você fica paralisada pelo medo de não ser capaz de manter o padrão", valor: "B" },
+                    { texto: "Você sabota a situação criando conflitos ou cometendo 'erros' estratégicos", valor: "C" }
+                ]
+            },
+            {
+                numero: 2,
+                texto: "Como você se relaciona com seu próprio potencial?",
+                opcoes: [
+                    { texto: "Sente que não merece estar em posições de destaque", valor: "A" },
+                    { texto: "Acredita que tem potencial, mas duvida constantemente de sua capacidade", valor: "B" },
+                    { texto: "Reconhece seu potencial, mas teme as responsabilidades que virão", valor: "C" }
+                ]
+            },
+            {
+                numero: 3,
+                texto: "Diante de um desafio profissional importante, qual é sua reação automática?",
+                opcoes: [
+                    { texto: "'Eu não consigo, melhor nem tentar'", valor: "A" },
+                    { texto: "'Consigo, mas e se eu falhar? Vou ser exposta'", valor: "B" },
+                    { texto: "'Consigo, mas depois vem a culpa e a exaustão'", valor: "C" }
+                ]
+            },
+            {
+                numero: 4,
+                texto: "Como você lida com elogios e reconhecimento no trabalho?",
+                opcoes: [
+                    { texto: "Minimiza ou nega: 'Não foi nada, qualquer um faria'", valor: "A" },
+                    { texto: "Fica desconfortável e pensa 'quando vão descobrir que sou uma fraude'", valor: "B" },
+                    { texto: "Aceita, mas depois se sente culpada ou exigida demais", valor: "C" }
+                ]
+            },
+            {
+                numero: 5,
+                texto: "Qual é seu padrão com prazos e compromissos profissionais?",
+                opcoes: [
+                    { texto: "Procrastina e deixa para última hora, sabotando a qualidade", valor: "A" },
+                    { texto: "Cumpre religiosamente, mas com extrema ansiedade e perfeccionismo", valor: "B" },
+                    { texto: "Começa bem, mas abandona no meio quando sente que está ficando 'pesado'", valor: "C" }
+                ]
+            },
+            {
+                numero: 6,
+                texto: "Como você se sente em relação ao dinheiro que ganha?",
+                opcoes: [
+                    { texto: "Sente que não merece ganhar mais, mesmo sendo competente", valor: "A" },
+                    { texto: "Quer ganhar mais, mas sente culpa ao pensar nisso", valor: "B" },
+                    { texto: "Ganha bem, mas gasta tudo rapidamente ou se sente vazia mesmo assim", valor: "C" }
+                ]
+            },
+            {
+                numero: 7,
+                texto: "Qual é sua relação com autoridades ou figuras de poder no trabalho?",
+                opcoes: [
+                    { texto: "Sente-se inferior e evita se destacar perto deles", valor: "A" },
+                    { texto: "Tenta agradar rigorosamente, mas sente raiva por dentro", valor: "B" },
+                    { texto: "Desafia ou sabota sutilmente para manter o controle", valor: "C" }
+                ]
+            },
+            {
+                numero: 8,
+                texto: "Como você se vê profissionalmente em 5 anos?",
+                opcoes: [
+                    { texto: "Não consegue visualizar um futuro melhor para si", valor: "A" },
+                    { texto: "Visualiza, mas com muito medo e dúvida se conseguirá", valor: "B" },
+                    { texto: "Visualiza, mas sente que não merece ou que algo vai dar errado", valor: "C" }
+                ]
+            },
+            {
+                numero: 9,
+                texto: "Quando comete um erro no trabalho, qual é sua reação?",
+                opcoes: [
+                    { texto: "Se culpa profundamente e usa como prova de que não é capaz", valor: "A" },
+                    { texto: "Fica obcecada em corrigir e melhorar, vivendo em ansiedade", valor: "B" },
+                    { texto: "Minimiza ou culpa outros, evitando responsabilidade", valor: "C" }
+                ]
+            },
+            {
+                numero: 10,
+                texto: "O que você mais teme em relação ao sucesso profissional?",
+                opcoes: [
+                    { texto: "Ser descoberta como incompetente ou fraude", valor: "A" },
+                    { texto: "Perder o controle ou não conseguir manter o padrão", valor: "B" },
+                    { texto: "Ser julgada, invejada ou abandonada por estar 'acima' dos outros", valor: "C" }
+                ]
+            }
+        ];
+
+        const perfis = {
+            A: {
+                nome: "A Invisível",
+                descricao: "Você é a Invisível. Seu padrão de sabotagem vem de uma crença profunda de que você não merece estar em posições de destaque, sucesso ou reconhecimento. Você se minimiza constantemente, recusa oportunidades e encontra razões para não tentar. Não é preguiça—é uma proteção contra o medo de ser 'descoberta' como alguém que não é digna.\n\nVocê deixa oportunidades passarem, recusa promoções, não se candidata a postos melhores. Quando alguém reconhece seu trabalho, você nega ou minimiza. Vive na sombra, mesmo tendo competência. O custo emocional é alto: frustração, ressentimento silencioso e uma sensação de que a vida passa por você.",
+                orientacoes: [
+                    "<strong>1. Reconheça sua competência:</strong> Faça uma lista de 10 conquistas profissionais reais. Não minimize. Releia quando a dúvida aparecer.",
+                    "<strong>2. Pratique o 'não' e o 'sim':</strong> Diga não a tarefas que não são suas. Diga sim a uma oportunidade pequena este mês—uma reunião, uma apresentação, um projeto.",
+                    "<strong>3. Reescreva sua história:</strong> Você não é invisível. Você é cautelosa. Essa cautela é uma força. Comece a se ver como alguém que merece espaço.",
+                    "<strong>4. Busque apoio terapêutico:</strong> Trabalhe as crenças de indignidade com uma terapeuta. Isso é profundo e merece acompanhamento.",
+                    "<strong>5. Próximos passos:</strong> Agende uma sessão comigo para mapear as raízes dessa crença e começar a reescrever seu script profissional."
+                ]
+            },
+            B: {
+                nome: "A Perfeccionista Ansiosa",
+                descricao: "Você é a Perfeccionista Ansiosa. Seu padrão de sabotagem vem do medo de não ser capaz de manter o padrão que você (ou outros) esperam. Você trabalha religiosamente, com rigor extremo, sempre tentando ser perfeita. Mas por trás disso há uma ansiedade constante: 'E se eu falhar? E se descobrirem que sou uma fraude?' Você sabota através da exaustão e da paralisia.\n\nVocê cumpre prazos, mas vive em ansiedade. Recebe elogios, mas pensa 'quando vão descobrir a verdade'. Trabalha demais, dorme pouco, vive em estado de alerta. Pode ter síndrome do impostor forte. O custo emocional é burnout, exaustão crônica e a sensação de que nunca é suficiente.",
+                orientacoes: [
+                    "<strong>1. Estabeleça limites de trabalho:</strong> Defina horários para parar. Trabalho não é vida. Sua vida é vida.",
+                    "<strong>2. Pratique a 'boa o suficiente':</strong> Entregue algo com 80% de perfeição. Observe que o mundo não desaba. Repita.",
+                    "<strong>3. Desafie o pensamento catastrófico:</strong> Quando pensar 'vou falhar', pergunte: 'Qual é a evidência? Já falhei antes e sobrevivi?'",
+                    "<strong>4. Cultive autocompaixão:</strong> Você é humana. Erros são dados, não fracassos. Trate a si mesma como trataria uma amiga querida.",
+                    "<strong>5. Próximos passos:</strong> Agende uma sessão para trabalhar a síndrome do impostor e ressignificar sua relação com o sucesso."
+                ]
+            },
+            C: {
+                nome: "A Sabotadora Ativa",
+                descricao: "Você é a Sabotadora Ativa. Seu padrão de sabotagem é mais consciente (ou semiconsciente). Você reconhece seu potencial, mas quando as coisas começam a ficar boas, você cria conflitos, comete 'erros estratégicos' ou abandona no meio. Pode ser por culpa (achar que não merece), por medo das responsabilidades que virão, ou por uma raiva subjacente que você não consegue processar. Você sabota ativamente.\n\nVocê começa projetos com entusiasmo, mas abandona. Cria conflitos com chefes ou colegas justo quando está perto do sucesso. Gasta o dinheiro que ganha rapidamente. Sente culpa ao ganhar bem ou estar em destaque. O custo emocional é confusão, raiva, culpa e a sensação de estar presa em um ciclo que você não consegue sair.",
+                orientacoes: [
+                    "<strong>1. Identifique o gatilho:</strong> O que acontece justo antes de você sabotar? Medo? Culpa? Raiva? Nomeie.",
+                    "<strong>2. Trabalhe a culpa:</strong> Se você ganha bem, merece. Se está em destaque, merece. A culpa é uma emoção, não uma verdade.",
+                    "<strong>3. Processe a raiva:</strong> Há raiva sob essa sabotagem. Com quem? Com você mesma? Com quem a ensinou que sucesso é perigoso?",
+                    "<strong>4. Crie um plano B:</strong> Quando sentir o impulso de sabotar, tenha um plano: respire, saia do ambiente, ligue para alguém. Interrompa o ciclo.",
+                    "<strong>5. Próximos passos:</strong> Agende uma sessão para processar a raiva, trabalhar a culpa e ressignificar seu relacionamento com o sucesso."
+                ]
+            }
+        };
+
+        let respostas = [];
+        let telaAtual = 0;
+        let dadosUsuario = {};
+
+        // RENDERIZAR PERGUNTAS
+        function renderizarPerguntas() {
+            const container = document.getElementById('perguntas-container');
+            container.innerHTML = '';
+
+            const pergunta = perguntas[telaAtual];
+            const perguntaDiv = document.createElement('div');
+            perguntaDiv.innerHTML = `
+                <div class="pergunta">
+                    <div class="pergunta-numero">Pergunta ${pergunta.numero} de ${perguntas.length}</div>
+                    <div class="pergunta-texto">${pergunta.texto}</div>
+                    <div class="opcoes">
+                        ${pergunta.opcoes.map((opcao, index) => `
+                            <div class="opcao">
+                                <label>
+                                    <input type="radio" name="pergunta-${pergunta.numero}" value="${opcao.valor}" ${respostas[telaAtual] === opcao.valor ? 'checked' : ''}>
+                                    ${opcao.texto}
+                                </label>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+            container.appendChild(perguntaDiv);
+
+            // ATUALIZAR BARRA DE PROGRESSO
+            const progresso = ((telaAtual + 1) / perguntas.length) * 100;
+            document.getElementById('progresso-bar').style.width = progresso + '%';
+        }
+
+        // VALIDAR PERGUNTAS
+        function validarPerguntas() {
+            const pergunta = perguntas[telaAtual];
+            const resposta = document.querySelector(`input[name="pergunta-${perg
 

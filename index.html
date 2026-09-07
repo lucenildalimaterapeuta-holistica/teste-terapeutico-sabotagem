@@ -1,38 +1,643 @@
-<a
-  href="https://pay.kiwify.com.br/sjoETu2"
-  target="_blank"
-  rel="noopener noreferrer"
-  class="cta-button"
->
-  clique e dê seu próximo passo
-</a>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rastreio de Ciclos de Sabotagem</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-<style>
-  .cta-button {
-    display: block;
-    width: fit-content;
-    margin: 24px auto;
-    padding: 16px 30px;
-    border-radius: 8px;
-    background-color: #8b5e5e;
-    color: #ffffff;
-    font-family: Arial, sans-serif;
-    font-size: 16px;
-    font-weight: 600;
-    line-height: 1.4;
-    text-align: center;
-    text-decoration: none;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.3s ease;
-  }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #8B6F47 0%, #D4A574 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
 
-  .cta-button:hover {
-    background-color: #6f4747;
-    transform: translateY(-2px);
-  }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
 
-  .cta-button:focus {
-    outline: 3px solid rgba(139, 94, 94, 0.35);
-    outline-offset: 3px;
-  }
-</style>
+        .screen {
+            display: none;
+            padding: 40px;
+            min-height: 100vh;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* TELA DE ABERTURA */
+        .opening-screen {
+            background: linear-gradient(135deg, #8B6F47 0%, #D4A574 100%);
+            color: white;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 60px 40px;
+        }
+
+        .opening-screen h1 {
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            line-height: 1.3;
+            font-weight: 700;
+        }
+
+        .opening-screen p {
+            font-size: 1.1em;
+            line-height: 1.8;
+            margin-bottom: 20px;
+            opacity: 0.95;
+        }
+
+        .opening-screen .highlight {
+            color: #FFF;
+            font-weight: 600;
+        }
+
+        /* TELA DE FORMULÁRIO */
+        .form-screen {
+            padding: 40px;
+        }
+
+        .form-screen h2 {
+            color: #8B6F47;
+            margin-bottom: 30px;
+            font-size: 1.8em;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #8B6F47;
+            font-weight: 600;
+            font-size: 0.95em;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #D4A574;
+            border-radius: 8px;
+            font-size: 1em;
+            font-family: inherit;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #8B6F47;
+            box-shadow: 0 0 0 3px rgba(139, 111, 71, 0.1);
+        }
+
+        .error-message {
+            color: #d32f2f;
+            font-size: 0.85em;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        /* TELA DE PERGUNTAS */
+        .quiz-screen {
+            padding: 40px;
+        }
+
+        .quiz-header {
+            margin-bottom: 30px;
+        }
+
+        .quiz-header h2 {
+            color: #8B6F47;
+            font-size: 1.8em;
+            margin-bottom: 10px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #E0D5C7;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 15px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #8B6F47, #D4A574);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .question {
+            margin-bottom: 30px;
+        }
+
+        .question h3 {
+            color: #333;
+            font-size: 1.2em;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .option {
+            display: flex;
+            align-items: flex-start;
+            padding: 15px;
+            border: 2px solid #D4A574;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .option:hover {
+            border-color: #8B6F47;
+            background: #F9F7F4;
+        }
+
+        .option input[type="radio"] {
+            margin-right: 12px;
+            margin-top: 3px;
+            cursor: pointer;
+            accent-color: #8B6F47;
+            width: 20px;
+            height: 20px;
+        }
+
+        .option label {
+            cursor: pointer;
+            flex: 1;
+            margin: 0;
+            font-weight: 400;
+            color: #333;
+        }
+
+        .option.selected {
+            background: #F0E6D2;
+            border-color: #8B6F47;
+        }
+
+        /* TELA DE RESULTADO */
+        .result-screen {
+            padding: 40px;
+        }
+
+        .result-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .result-header h2 {
+            color: #8B6F47;
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        .profile-name {
+            font-size: 1.5em;
+            color: #D4A574;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .score {
+            font-size: 1.2em;
+            color: #8B6F47;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .result-content {
+            background: #F9F7F4;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            line-height: 1.8;
+            color: #333;
+        }
+
+        .result-content h3 {
+            color: #8B6F47;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+
+        .result-content p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+
+        /* BOTÕES */
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 14px 24px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            min-width: 150px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #8B6F47, #D4A574);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(139, 111, 71, 0.3);
+        }
+
+        .btn-secondary {
+            background: #E0D5C7;
+            color: #8B6F47;
+        }
+
+        .btn-secondary:hover {
+            background: #D4C4B0;
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* TELA FINAL */
+        .final-screen {
+            padding: 40px;
+            text-align: center;
+        }
+
+        .final-screen h2 {
+            color: #8B6F47;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+        }
+
+        .final-screen p {
+            font-size: 1.1em;
+            line-height: 1.8;
+            margin-bottom: 30px;
+            color: #333;
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, #8B6F47, #D4A574);
+            color: white;
+            padding: 18px 40px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(139, 111, 71, 0.4);
+        }
+
+        /* RESPONSIVO */
+        @media (max-width: 600px) {
+            .container {
+                border-radius: 10px;
+            }
+
+            .screen {
+                padding: 25px;
+            }
+
+            .opening-screen h1 {
+                font-size: 1.8em;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+
+            .quiz-header h2 {
+                font-size: 1.4em;
+            }
+
+            .question h3 {
+                font-size: 1em;
+            }
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+        }
+
+        .spinner {
+            border: 4px solid #E0D5C7;
+            border-top: 4px solid #8B6F47;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- TELA 1: ABERTURA -->
+        <div class="screen opening-screen active" id="openingScreen">
+            <h1>Descubra Qual Ciclo de Sabotagem Está Bloqueando Sua Liberdade Emocional</h1>
+            <p style="margin-top: 30px;">Mulher, você já percebeu que repete os mesmos padrões? Aquele sentimento de estar presa em um ciclo que não consegue quebrar?</p>
+            <p>Os ciclos de sabotagem são como correntes invisíveis que carregamos — muitas vezes sem nem perceber. Eles nascem de feridas antigas, de crenças que absorvemos, de proteções que um dia fizeram sentido, mas agora apenas nos aprisionam.</p>
+            <p>Este rastreio foi criado para você reconhecer qual ciclo está ativo em sua vida neste momento. Não é sobre julgamento. É sobre <span class="highlight">despertar</span>.</p>
+            <p style="margin-top: 30px; opacity: 0.9;">Suas respostas honestas vão revelar padrões profundos. E quando você nomeia o que está vivendo, você ganha o poder de transformá-lo.</p>
+            <p style="margin-top: 20px; font-size: 1.3em; font-weight: 600;">Você está pronta para essa verdade?</p>
+            <div class="button-group" style="margin-top: 40px;">
+                <button class="btn btn-primary" onclick="goToScreen('formScreen')">Sim, quero descobrir</button>
+            </div>
+        </div>
+
+        <!-- TELA 2: FORMULÁRIO -->
+        <div class="screen" id="formScreen">
+            <h2>Vamos começar?</h2>
+            <p style="color: #666; margin-bottom: 30px;">Precisamos de algumas informações para personalizar seu resultado.</p>
+
+            <form id="contactForm">
+                <div class="form-group">
+                    <label for="name">Nome Completo *</label>
+                    <input type="text" id="name" name="name" placeholder="Seu nome completo" required>
+                    <span class="error-message" id="nameError"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email *</label>
+                    <input type="email" id="email" name="email" placeholder="seu@email.com" required>
+                    <span class="error-message" id="emailError"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="whatsapp">WhatsApp (com DDD) *</label>
+                    <input type="tel" id="whatsapp" name="whatsapp" placeholder="11999999999" required>
+                    <span class="error-message" id="whatsappError"></span>
+                </div>
+
+                <div class="button-group" style="margin-top: 40px;">
+                    <button type="button" class="btn btn-secondary" onclick="goToScreen('openingScreen')">Voltar</button>
+                    <button type="button" class="btn btn-primary" onclick="validateAndProceed()">Continuar</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- TELA 3: QUIZ -->
+        <div class="screen" id="quizScreen">
+            <div class="quiz-header">
+                <h2>Respondendo ao Rastreio</h2>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <p style="margin-top: 10px; color: #666; font-size: 0.9em;">Pergunta <span id="currentQuestion">1</span> de 10</p>
+            </div>
+
+            <div id="quizContent"></div>
+
+            <div class="button-group" style="margin-top: 40px;">
+                <button class="btn btn-secondary" id="prevBtn" onclick="previousQuestion()" style="display: none;">Anterior</button>
+                <button class="btn btn-primary" id="nextBtn" onclick="nextQuestion()">Próxima</button>
+            </div>
+        </div>
+
+        <!-- TELA 4: RESULTADO -->
+        <div class="screen" id="resultScreen">
+            <div class="result-header">
+                <h2>Seu Resultado</h2>
+                <div class="profile-name" id="profileName"></div>
+                <div class="score" id="scoreDisplay"></div>
+            </div>
+
+            <div id="resultContent"></div>
+
+            <div class="button-group" style="margin-top: 30px;">
+                <button class="btn btn-primary" onclick="downloadPDF()">Baixar PDF Completo</button>
+                <button class="btn btn-secondary" onclick="goToScreen('finalScreen')">Próximo Passo</button>
+            </div>
+        </div>
+
+        <!-- TELA 5: FINAL -->
+        <div class="screen" id="finalScreen">
+            <h2>Seu Caminho de Transformação Começa Aqui</h2>
+            <p style="margin-top: 30px;">Agora que você identificou seu ciclo de sabotagem, é hora de transformá-lo.</p>
+            <p>Trabalho com Terapia de Reprocessamento Generativo, Resgate da Criança Inteira Ferida e perspectiva sistêmica para ajudar você a quebrar ciclos de sabotagem, dependência emocional e crenças limitantes.</p>
+            <p style="margin-top: 30px; font-size: 1.1em; color: #8B6F47; font-weight: 600;">Cada sessão é um espaço seguro, acolhedor e profundo onde sua transformação é possível.</p>
+
+            <div style="margin-top: 40px; padding: 25px; background: #F9F7F4; border-radius: 12px;">
+                <p style="margin-bottom: 20px;">📱 <strong>Instagram:</strong> @lucenildalimaterapeuta</p>
+                <a href="https://kiwify.com.br" target="_blank" class="cta-button" style="width: 100%; text-align: center;">
+                    Clique e dê seu próximo passo
+                </a>
+            </div>
+
+            <p style="margin-top: 40px; text-align: center; color: #999; font-size: 0.9em;">Lucenilda Lima | Terapeuta Facilitadora Sistêmica</p>
+        </div>
+    </div>
+
+    <script>
+        // DADOS DO RASTREIO
+        const questions = [
+            {
+                question: "Quando algo bom está prestes a acontecer na minha vida, eu...",
+                options: [
+                    "Encontro uma razão para sabotar ou afastar essa oportunidade, mesmo sem querer conscientemente",
+                    "Fico tão focada em fazer tudo perfeito que acabo paralisando e perdendo a chance",
+                    "Sinto medo de não merecer e começo a questionar se realmente quero aquilo"
+                ],
+                scores: [3, 2, 1]
+            },
+            {
+                question: "Nos meus relacionamentos, meu padrão é...",
+                options: [
+                    "Criar conflitos ou distância quando sinto que a pessoa está se aproximando demais",
+                    "Exigir perfeição do outro e de mim, o que gera frustração e afastamento",
+                    "Ficar hipervigilante, esperando ser abandonada, e isso acaba afastando as pessoas"
+                ],
+                scores: [3, 2, 1]
+            },
+            {
+                question: "Quando cometo um erro ou falho em algo, eu...",
+                options: [
+                    "Saboto meus próprios esforços futuros como forma de 'punição' ou 'controle'",
+                    "Sou extremamente crítica comigo mesma e exijo uma performance impecável sempre",
+                    "Sinto uma vergonha profunda e me retiro, acreditando que não sou boa o suficiente"
+                ],
+                scores: [3, 2, 1]
+            },
+            {
+                question: "Em relação ao meu corpo e autocuidado, eu...",
+                options: [
+                    "Negligencio deliberadamente meu bem-estar quando estou em situações de estresse ou medo",
+                    "Sigo rigorosamente regras e protocolos, mas sem realmente ouvir o que meu corpo precisa",
+                    "Sinto desconexão do meu corpo e dificuldade em acreditar que mereço cuidado"
+                ],
+                scores: [3, 2, 1]
+            },
+            {
+                question: "Quando alguém elogia meu trabalho ou minhas conquistas, eu...",
+                options: [
+                    "Descredibilizo o elogio ou crio situações que 'provam' que não sou tão boa assim",
+                    "Fico ansiosa porque agora as expectativas estão altas e preciso manter a perfeição",
+                    "Sinto desconforto e acredito que foi sorte, não mérito meu"
+                ],
+                scores: [3, 2, 1]
+            },
+            {
+                question: "Meus relacionamentos amorosos costumam seguir um padrão de...",
+                options: [
+                    "Aproximação e afastamento cíclico — eu mesma crio distância quando sinto intimidade",
+                    "Busca constante por validação e medo de não estar sendo 'boa o suficiente' para o outro",
+                    "Medo do abandono que me leva a comportamentos de controle ou dependência emocional"
+                ],
+                scores: [3, 2, 1]
+            },
+            {
+                question: "Quando penso em meus sonhos e objetivos, eu...",
+                options: [
+                    "Inconscientemente coloco obstáculos no meu próprio caminho antes que outros o façam",
+                    "Estabeleço metas tão altas e exigentes que o fracasso é quase inevitável",
+                    "Sinto que não mereço realizá-los e abandono antes de tentar realmente"
+                ],
+                scores: [3, 2, 1]
+            },
+            {
+                question: "A forma como minha mãe (ou figura materna) lidava com sucesso, amor e merecimento...",
+                options: [
+                    "Me ensinou que é perigoso brilhar ou ter coisas boas — então eu saboto para estar 'segura'",
+                    "Me mostrou que perfeição é o padrão, e qualquer coisa menos que isso é fracasso",
+                    "Me deixou com a crença de que eu não mereço ser feliz ou amada plenamente"
+                ],
+                scores: [3, 2, 1]
+            },
+            {
+                question: "Quando estou próxima de alcançar algo importante, sinto...",
+                options: [
+                    "Um impulso de destruir ou complicar as coisas, como se houvesse algo 'errado' em ser feliz",
+                    "Uma pressão imensa para manter tudo sob controle e fazer tudo perfeitamente",
+                    "Pânico e uma voz interna dizendo que vou ser descoberta ou que não sou digna"
+                ],
+                scores: [3, 2, 1]
+            },
+            {
+                question: "O que mais me bloqueia na vida é...",
+                options: [
+                    "Minha própria sabotagem — eu mesma sou meu maior obstáculo",
+                    "A impossibilidade de alcançar o padrão perfeito que estabeleci para mim",
+                    "A crença profunda de que não mereço viver plenamente e ser feliz"
+                ],
+                scores: [3, 2, 1]
+            }
+        ];
+
+        const profiles = {
+            sabotadora: {
+                name: "A Sabotadora Inconsciente",
+                minScore: 20,
+                description: "Você é uma mulher que, no fundo, acredita que não é seguro brilhar. Seu ciclo de sabotagem funciona como uma proteção — você mesma cria obstáculos, conflitos ou situações que 'provam' que você não merece ter coisas boas. É como se houvesse uma voz interna dizendo: 'Se eu não destruir isso, alguém vai me tirar, então é melhor eu fazer primeiro.' Esse padrão muitas vezes vem de uma história onde brilhar significava perigo, onde ter sucesso gerava inveja ou punição. Então você aprendeu a sabotar como forma de sobrevivência emocional.",
+                meaning: "Você cria conflitos quando está feliz. Sabota relacionamentos quando sente que estão ficando sérios. Coloca obstáculos em seus próprios caminhos de sucesso. E depois se questiona por que nada dá certo. A verdade é: você está protegendo a si mesma do que acredita ser perigoso.",
+                guidance: [
+                    "Reconheça o padrão com compaixão: Antes de qualquer coisa, entenda que sua sabotagem não é um defeito seu — é uma estratégia de proteção que aprendeu. Quando você notar que está criando um obstáculo, pause e pergunte: 'Do que estou tentando me proteger?' A resposta virá.",
+                    "Crie espaços de segurança emocional: Seu sistema nervoso aprendeu que brilhar é perigoso. Comece pequeno. Permita-se ter algo bom sem sabotá-lo. Pode ser um dia inteiro sem criar conflito, uma semana onde você não coloca obstáculos. Seu corpo precisa aprender que é seguro ter coisas boas.",
+                    "Trabalhe a raiz: Através da Terapia de Reprocessamento Generativo, podemos acessar a origem dessa crença — aquele momento onde você aprendeu que brilhar era perigoso. Quando você ressignifica essa memória, o padrão de sabotagem começa a se dissolver.",
+                    "Pratique a interrupção consciente: Quando sentir o impulso de sabotar, faça algo diferente. Respire. Saia do ambiente. Ligue para alguém de confiança. Seu cérebro precisa de novas evidências de que é seguro ter coisas boas.",
+                    "Cultive a autossabotagem positiva: Ao invés de sabotar seus sucessos, sabote seus medos. Faça uma coisa por dia que assusta você. Pequenas ações que provam ao seu sistema nervoso que você é segura mesmo quando brilha."
+                ]
+            },
+            perfeccionismo: {
+                name: "A Refém do Perfeccionismo",
+                minScore: 15,
+                description: "Você vive em um padrão onde nada é nunca bom o suficiente. Seu ciclo de sabotagem é silencioso e elegante — ele vem disfarçado de excelência. Você estabelece metas impossíveis, segue regras rigorosamente, busca a perfeição em tudo. E quando não consegue (porque ninguém consegue), você se sente fracassada. Esse padrão geralmente vem de uma mensagem internalizada: 'Você só é valiosa se for perfeita.' Então você trabalha, trabalha, trabalha... mas nunca chega ao ponto onde finalmente se permite descansar ou se sentir satisfeita.",
+                meaning: "Você paralisa diante de tarefas porque tem medo de não fazer perfeitamente. Você sabota seus próprios esforços porque acredita que não vai conseguir atingir o padrão que estabeleceu. Você é sua própria crítica mais severa. E essa exigência constante a deixa esgotada, ansiosa e cada vez mais afastada de si mesma.",
+                guidance: [
+                    "Reconheça que perfeição é ilusão: A perfeição não existe. Nunca existiu. Mas você foi ensinada a acreditar que sua valia depende dela. Comece a questionar essa crença. Pergunte-se: 'Quem me ensinou isso? É verdade? Preciso disso para ser valiosa?'",
+                    "Estabeleça metas 'boas o suficiente': Ao invés de metas impossíveis, estabeleça metas que sejam desafiadoras mas realizáveis. Permita-se terminar projetos que não são perfeitos. Seu corpo e mente precisam aprender que 'bom o suficiente' é realmente bom o suficiente.",
+                    "Pratique a autossabotagem consciente: Faça algo 'errado' propositalmente. Deixe a louça na pia por um dia. Envie um email com um pequeno erro. Saia de casa sem maquiagem. Seu sistema nervoso precisa aprender que pequenas imperfeições não significam fracasso total.",
+                    "Trabalhe a compaixão com você mesma: Você é tão crítica consigo mesma quanto seria com uma criança? Provavelmente não. Comece a falar consigo mesma como falaria com alguém que ama. Essa mudança de tom interno é transformadora.",
+                    "Ressignifique o significado de sucesso: Sucesso não é perfeição. É progresso. É tentar. É estar viva e presente. Através da perspectiva sistêmica, podemos entender como essa crença sobre perfeição foi transmitida em sua família e como você pode quebrá-la agora."
+                ]
+            },
+            indignidade: {
+                name: "A Prisioneira da Indignidade",
+                minScore: 10,
+                description: "Você carrega uma crença profunda: 'Eu não mereço.' Não mereço ser feliz. Não mereço ser amada. Não mereço ter coisas boas. Seu ciclo de sabotagem funciona através da desistência silenciosa. Você não cria conflitos dramáticos — você simplesmente se retira, se diminui, acredita que não é digna. Esse padrão nasce de feridas antigas onde você recebeu a mensagem de que não era suficiente, de que havia algo 'errado' em você. E agora, mesmo quando oportunidades chegam, você não consegue acreditar que são para você.",
+                meaning: "Você descredibiliza seus próprios elogios. Quando algo bom acontece, você atribui à sorte, não ao seu mérito. Você fica hipervigilante nos relacionamentos, esperando ser descoberta ou abandonada. Você sabota através da desconexão — de si mesma, do seu corpo, dos seus desejos. É como viver uma vida que não é realmente sua.",
+                guidance: [
+                    "Reconheça a origem da crença: 'Eu não mereço'
+
